@@ -5,11 +5,18 @@
     </section>
     <section v-else>
       <div v-if="isLoading">
-        <div class="loader">Loading products...</div>
+        <q-circular-progress indeterminate size="190px" :thickness="0.2" color="primary" center-color="grey-8"
+          track-color="transparent" class="q-ma-md" />
       </div>
       <product-list v-else :products="products" :page-size="5">
-        <template v-slot="slotProps">
-          <span>{{ slotProps.product.name }}</span> <span>({{ slotProps.product.price }}$)</span>
+        <template v-slot="sp">
+          <q-item-section>
+            <q-item-label>{{ sp.product.name }}</q-item-label>
+            <q-item-label caption>{{ sp.product.description }}</q-item-label>
+          </q-item-section>
+          <q-item-section side top>
+            <q-item-label caption>{{ sp.product.price }}$</q-item-label>
+          </q-item-section>
         </template>
       </product-list>
     </section>

@@ -13,6 +13,10 @@ const routes = [
         component: () => import("pages/ProductDetailsPage.vue"),
         props: castRouteParamsId,
       },
+      {
+        path: "product/insert",
+        component: () => import("pages/ProductInsertPage.vue"),
+      },
     ],
   },
 

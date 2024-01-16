@@ -1,33 +1,31 @@
 <template>
   <div>
     <h2>{{ title }}</h2>
-    <fieldset class="filters">
+    <fieldset class="row items-center">
       Sort by:
-      <button @click="sort('name')">Name</button>
-      <button @click="sort('price')">Price</button>
-      <button @click="sort('modifiedDate')">Date</button>
-      <span>Filter by name: <input v-model="filterName" /></span>
+      <q-btn-group push class="q-ml-sm q-mr-sm">
+        <q-btn color="amber" glossy text-color="black" @click="sort('name')" push label="Name" />
+        <q-btn color="amber" glossy text-color="black" @click="sort('price')" push label="Price" />
+        <q-btn color="amber" glossy text-color="black" @click="sort('modifiedDate')" push label="Date" />
+      </q-btn-group>
+      <q-input filled dense float-right v-model="filterName" label="Filter by name" style="max-width: 180px;" />
     </fieldset>
-    <ul class="products">
-      <li v-for="product in sortedFilteredPaginatedProducts" v-bind:key="product.id"
+    <q-list bordered separator>
+      <q-item clickable v-ripple v-for="product in sortedFilteredPaginatedProducts" v-bind:key="product.id"
         v-bind:class='{ discontinued: product.discontinued }' @click="onSelect(product)">
         <slot :product="product">
           {{ product.name }}
         </slot>
-      </li>
-    </ul>
+      </q-item>
+    </q-list>
 
-    <div class="right">
-      <router-link to="/product/insert">Create new product...</router-link>
-    </div>
+    <q-page-sticky position="bottom-right" :offset="[18, 18]">
+      <q-btn fab icon="add" color="accent" to="/product/insert" />
+    </q-page-sticky>
 
-    <button @click="prevPage" :disabled="pageNumber === 1">
-      &lt; Previous
-    </button>
+    <q-btn color="accent" @click="prevPage" label="&lt; Previous" :disabled="pageNumber === 1" />
     Page {{ pageNumber }}
-    <button @click="nextPage" :disabled="pageNumber >= pageCount">
-      Next &gt;
-    </button>
+    <q-btn color="accent" @click="nextPage" label="Next &gt;" :disabled="pageNumber >= pageCount" />
   </div>
 </template>
 
@@ -60,14 +58,6 @@ const { sort, nextPage, prevPage, filterName, pageNumber, pageCount, sortedFilte
 </script>
 
 <style lang="css" scoped>
-.filters {
-  padding: 10px
-}
-
-.filters button {
-  margin-right: 4px
-}
-
 .products {
   margin: 0;
   list-style-type: none;
